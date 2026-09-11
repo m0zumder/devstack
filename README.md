@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🧱 A-5 Dev Stack Builder Website
 
 ## 📅 Deadlines
@@ -213,3 +214,7 @@ You can use image URLs from Google or from anywhere you like. A good source with
 ## 📤 What to submit:
 - GitHub Repository Link:
 - Live Site Link:
+=======
+# devstack
+An interactive web application to explore, compare, and build custom development stacks using React and Tailwind CSS.
+>>>>>>> b297551121aa62908265eaac361b16ce39c5b4fe
