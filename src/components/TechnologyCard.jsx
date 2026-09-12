@@ -1,4 +1,4 @@
-import Rect from 'react';
+import React from 'react';
 
 const getBadgeStyle = (badgeColor) => {
   switch (badgeColor) {
