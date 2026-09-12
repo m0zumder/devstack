@@ -1,67 +1,94 @@
 import React from 'react';
-import TechnologyCard from './TechnologyCard';
-import YourStack from './YourStack';
-import LoadingSpinner from './LoadingSpinner';
 
-const TechnologiesSection = ({
-  technologies,
-  selectedStack,
-  loading,
-  onAddToStack,
-  onRemoveFromStack,
-  onRemoveAll
-}) => {
+const getBadgeStyle = (badgeColor) => {
+  switch (badgeColor) {
+    case 'blue':
+      return 'bg-[#F0F9FF] text-[#0284C7] border border-[#E0F2FE]';
+    case 'teal':
+      return 'bg-[#ECFDF5] text-[#059669] border border-[#D1FAE5]';
+    case 'orange':
+      return 'bg-[#FFF7ED] text-[#EA580C] border border-[#FFEDD5]';
+    case 'red':
+      return 'bg-[#FFF1F2] text-[#E11D48] border border-[#FFE4E6]';
+    case 'yellow':
+      return 'bg-[#FFFBEB] text-[#D97706] border border-[#FEF3C7]';
+    default:
+      return 'bg-slate-50 text-slate-600 border border-slate-100';
+  }
+};
+
+const TechnologyCard = ({ technology, isAdded, onAddToStack }) => {
+  const { name, category, description, icon, rating, difficulty, badge, badgeColor } = technology;
+
   return (
-    <section id="technologies" className="py-10 lg:py-14">
-      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* Section Header */}
-        <div className="mb-8 text-left">
-          <h2 className="text-2xl sm:text-[28px] font-black text-slate-900 tracking-tight">
-            Explore the <span className="brand-gradient-text">Technologies</span>
-          </h2>
-          <p className="mt-1 text-[13px] text-slate-400 font-medium">
-            Pick one technology per category to build your ideal stack.
-          </p>
+    <div
+      className={`bg-white rounded-2xl p-5 flex flex-col justify-between h-full transition-all duration-300 ease-out transform ${
+        isAdded
+          ? 'border border-pink-500 ring-1 ring-pink-500/30 shadow-'
+          : 'border border-slate-100 hover:border-slate-300 hover:-translate-y-1.5 hover:shadow-[0_14px_30px_rgba(0,0,0,0.08)] shadow-[0_2px_10px_rgba(0,0,0,0.03)]'
+      } group`}
+    >
+      <div>
+        {/* Header: Icon & Badge */}
+        <div className="flex items-center justify-between mb-3.5">
+          <div className="w-8 h-8 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <img src={icon} alt={name} className="w-full h-full object-contain" />
+          </div>
+          {badge && (
+            <span className={`text-[10.5px] font-semibold px-2 py-0.5 rounded-full leading-tight ${getBadgeStyle(badgeColor)}`}>
+              {badge}
+            </span>
+          )}
         </div>
 
-        {/* Loading Spinner or Content */}
-        {loading ? (
-          <LoadingSpinner />
-        ) : (
-          <div className="flex flex-col lg:flex-row gap-6 items-start">
+        {/* Title */}
+        <h3 className="text-[16px] font-bold text-slate-900 tracking-tight mb-1 group-hover:text-pink-600 transition-colors duration-200">
+          {name}
+        </h3> 
 
-            {/* Left Column: 3-Column Technology Grid */}
-            <div className="flex-1 w-full">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-                {technologies.map((tech) => {
-                  const isAdded = selectedStack.some((item) => item.id === tech.id);
-                  return (
-                    <TechnologyCard
-                      key={tech.id}
-                      technology={tech}
-                      isAdded={isAdded}
-                      onAddToStack={onAddToStack}
-                    />
-                  );
-                })}
-              </div>
-            </div>
+        {/* Description */}
+        <p className="text-[11.5px] text-slate-400 leading-snug line-clamp-2 h-[32px] mb-4">
+          {description}
+        </p>
 
-            {/* Right Column: Your Stack Sidebar */}
-            <div className="w-full lg:w-[280px] xl:w-[290px] flex-shrink-0">
-              <YourStack
-                selectedStack={selectedStack}
-                onRemoveFromStack={onRemoveFromStack}
-                onRemoveAll={onRemoveAll}
-              />
-            </div>
-
+        {/* Meta Info Row */}
+        <div className="flex items-center justify-between text-xs pt-3 pb-4 border-t border-slate-100">
+          <span className="px-2 py-0.5 rounded bg-slate-50 border border-slate-100 text-[10.5px] font-medium text-slate-500">
+            {category}
+          </span>
+          <span className="text-[11px] text-slate-400 font-normal">
+            {difficulty}
+          </span>
+          <div className="flex items-center gap-1 font-bold text-slate-700 text-[11px]">
+            <span className="text-amber-400 text-[12px] leading-none">★</span>
+            <span>{rating}</span>
           </div>
-        )}
+        </div>
       </div>
-    </section>
+
+      {/* Button */}
+      <button
+        onClick={() => onAddToStack(technology)}
+        disabled={isAdded}
+        className={`w-full py-2.5 rounded-xl text-[12px] font-semibold tracking-wide transition-all duration-200 flex items-center justify-center gap-1.5 ${
+          isAdded
+            ? 'bg-pink-50/80 text-pink-600 cursor-not-allowed border border-pink-200 font-medium'
+            : 'bg-black hover:bg-slate-800 text-white shadow-sm hover:shadow-md active:scale-[0.98]'
+        }`}
+      >
+        {isAdded ? (
+          <>
+            <svg className="w-3.5 h-3.5 text-pink-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>✓ Added to Stack</span>
+          </>
+        ) : (
+          <span>Add to Stack</span>
+        )}
+      </button>
+    </div>
   );
 };
 
-export default TechnologiesSection;
+export default TechnologyCard;
