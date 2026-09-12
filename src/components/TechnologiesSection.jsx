@@ -3,82 +3,94 @@ import React from 'react';
 const getBadgeStyle = (badgeColor) => {
   switch (badgeColor) {
     case 'blue':
-      return 'bg-[#F0F9FF] text-[#0284C7] border border-[#E0F2FE]';
+      return 'bg-sky-50 text-sky-600 border border-sky-200';
     case 'teal':
-      return 'bg-[#ECFDF5] text-[#059669] border border-[#D1FAE5]';
+      return 'bg-emerald-50 text-emerald-600 border border-emerald-200';  
     case 'orange':
-      return 'bg-[#FFF7ED] text-[#EA580C] border border-[#FFEDD5]';
+      return 'bg-amber-50 text-amber-600 border border-amber-200';
     case 'red':
-      return 'bg-[#FFF1F2] text-[#E11D48] border border-[#FFE4E6]';
+      return 'bg-rose-50 text-rose-600 border border-rose-200';
     case 'yellow':
-      return 'bg-[#FFFBEB] text-[#D97706] border border-[#FEF3C7]';
+      return 'bg-yellow-50 text-yellow-700 border border-yellow-200';
     default:
-      return 'bg-slate-50 text-slate-600 border border-slate-100';
+      return 'bg-slate-50 text-slate-600 border border-slate-200';
   }
 };
 
-const TechnologyCard = ({ technology, isAdded, onAddToStack }) => {
-  const { name, category, description, icon, rating, difficulty, badge, badgeColor } = technology;
+const TechnologyCard = ({ technology, isAdded = false, onAddToStack }) => {
+  if (!technology) return null;
+
+  const {
+    name = '',
+    category = '',
+    description = '',
+    icon = '',
+    rating = 4.8,
+    difficulty = 'Intermediate',
+    badge = '',
+    badgeColor = 'blue'
+  } = technology;
 
   return (
     <div
-      className={`bg-white rounded-2xl p-5 flex flex-col justify-between h-full transition-all duration-300 ease-out transform ${
+      className={`bg-white rounded-2xl p-5 flex flex-col justify-between h-full transition-all duration-300 ease-out transform hover:-translate-y-2 hover:shadow-xl ${
         isAdded
-          ? 'border border-pink-500 ring-1 ring-pink-500/30 shadow-'
-          : 'border border-slate-100 hover:border-slate-300 hover:-translate-y-1.5 hover:shadow-[0_14px_30px_rgba(0,0,0,0.08)] shadow-[0_2px_10px_rgba(0,0,0,0.03)]'
+          ? 'border-2 border-pink-500 shadow-md'
+          : 'border border-slate-100 hover:border-slate-300 shadow-sm'
       } group`}
     >
-      <div>
+      <div> 
         {/* Header: Icon & Badge */}
-        <div className="flex items-center justify-between mb-3.5">
-          <div className="w-8 h-8 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+        <div className="flex items-center justify-between gap-3 mb-3.5">
+          <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center p-2 group-hover:scale-110 transition-transform duration-300">
             <img src={icon} alt={name} className="w-full h-full object-contain" />
           </div>
           {badge && (
-            <span className={`text-[10.5px] font-semibold px-2 py-0.5 rounded-full leading-tight ${getBadgeStyle(badgeColor)}`}>
+            <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${getBadgeStyle(badgeColor)}`}>
               {badge}
             </span>
           )}
         </div>
 
         {/* Title */}
-        <h3 className="text-[16px] font-bold text-slate-900 tracking-tight mb-1 group-hover:text-pink-600 transition-colors duration-200">
+        <h3 className="text-[17px] font-bold text-slate-900 tracking-tight mb-1 group-hover:text-pink-600 transition-colors duration-200">
           {name}
-        </h3> 
+        </h3>
 
         {/* Description */}
-        <p className="text-[11.5px] text-slate-400 leading-snug line-clamp-2 h-[32px] mb-4">
+        <p className="text-[12px] text-slate-500 leading-relaxed line-clamp-2 h-[36px] mb-4">
           {description}
         </p>
-
-        {/* Meta Info Row */}
-        <div className="flex items-center justify-between text-xs pt-3 pb-4 border-t border-slate-100">
-          <span className="px-2 py-0.5 rounded bg-slate-50 border border-slate-100 text-[10.5px] font-medium text-slate-500">
+        
+        {/* Meta info row */}
+        <div className= "flex items-center justify-between text-xs pt-3 pb-4 border-t border-slate-100">
+          <span className= "px-2.5 py-0.5 rounded bg-slate-50 border border-slate-100 text-[11px] font-medium text-slate-600">
             {category}
           </span>
           <span className="text-[11px] text-slate-400 font-normal">
             {difficulty}
           </span>
-          <div className="flex items-center gap-1 font-bold text-slate-700 text-[11px]">
-            <span className="text-amber-400 text-[12px] leading-none">★</span>
+          <div className= "flex items-center gap-1 font-bold text-slate-700 text-[11px] ">
+            <span className="text-amber-400 text-[13px] leading-none">★</span>
             <span>{rating}</span>
           </div>
         </div>
       </div>
 
-      {/* Button */}
+      {/*Button*/}
       <button
-        onClick={() => onAddToStack(technology)}
+        type="button"
+        onClick={()=> onAddToStack && onAddToStack(technology)}
         disabled={isAdded}
-        className={`w-full py-2.5 rounded-xl text-[12px] font-semibold tracking-wide transition-all duration-200 flex items-center justify-center gap-1.5 ${
+        className={`w-full py-2.5 px-4 rounded-xl text-[12px] font-bold tracking-wide transition-all duration-200 flex items-center justify-center gap-1.5 ${
           isAdded
-            ? 'bg-pink-50/80 text-pink-600 cursor-not-allowed border border-pink-200 font-medium'
-            : 'bg-black hover:bg-slate-800 text-white shadow-sm hover:shadow-md active:scale-[0.98]'
+            ? 'bg-pink-50 text-pink-600 border border-pink-200 cursor-not-allowed'
+            : 'bg-black hover:bg-slate-800 text-white shadow-sm hover:shadow-md active:scale-95'
         }`}
       >
         {isAdded ? (
           <>
-            <svg className="w-3.5 h-3.5 text-pink-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
             <span>✓ Added to Stack</span>
