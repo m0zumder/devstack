@@ -5,8 +5,8 @@ A modern, interactive web application that enables developers and technical team
 ---
 
 ## 🌐 Live Preview & Repository
-- **Live Demo Link:** https://dev-stack-builder.vercel.app
-- **GitHub Repository:** https://github.com/your-username/dev-stack-builder
+- **Live Demo Link:** https://devstack-mozlishstudio.vercel.app/
+- **GitHub Repository:** https://github.com/m0zumder/devstack
 
 ---
 
